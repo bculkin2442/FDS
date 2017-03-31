@@ -1,4 +1,4 @@
-package bjc.fds;
+package bjc.fds.core;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import bjc.fds.FDSState.InputMode;
+import bjc.fds.core.FDSState.InputMode;
 import bjc.utils.cli.CommandHelp;
 import bjc.utils.cli.GenericHelp;
 import bjc.utils.funcutils.StringUtils;

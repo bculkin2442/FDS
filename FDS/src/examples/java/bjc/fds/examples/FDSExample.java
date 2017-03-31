@@ -2,10 +2,10 @@ package bjc.fds.examples;
 
 import java.io.InputStreamReader;
 
-import bjc.fds.FDSException;
-import bjc.fds.FDSMode;
-import bjc.fds.FDSUtils;
-import bjc.fds.SimpleFDSMode;
+import bjc.fds.core.FDSException;
+import bjc.fds.core.FDSMode;
+import bjc.fds.core.FDSUtils;
+import bjc.fds.core.SimpleFDSMode;
 import bjc.fds.examples.TestContext;
 
 /**

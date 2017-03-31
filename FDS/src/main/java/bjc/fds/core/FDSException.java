@@ -1,4 +1,4 @@
-package bjc.fds;
+package bjc.fds.core;
 
 /**
  * Exception thrown when something goes wrong with FDS.
@@ -7,6 +7,8 @@ package bjc.fds;
  *
  */
 public class FDSException extends Exception {
+	private static final long serialVersionUID = -7404226691172297306L;
+
 	/**
 	 * Create a new FDS exception with a message and a cause.
 	 * 
