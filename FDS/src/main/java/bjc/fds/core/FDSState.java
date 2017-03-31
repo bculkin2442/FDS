@@ -2,13 +2,11 @@ package bjc.fds.core;
 
 import java.io.PrintStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import bjc.utils.esodata.SimpleStack;
 import bjc.utils.esodata.Stack;
-import bjc.utils.ioutils.Block;
 import bjc.utils.ioutils.PushbackBlockReader;
 
 /**
@@ -79,12 +77,12 @@ public class FDSState<S> {
 	/**
 	 * The repository for data macros.
 	 */
-	public Map<String, List<Block>> dataMacros;
+	public Map<String, SimpleFDSMacro> dataMacros;
 
 	/**
 	 * The repository for command macros.
 	 */
-	public Map<String, List<Block>> commandMacros;
+	public Map<String, SimpleFDSMacro> commandMacros;
 
 	FDSMode<S>	dataMacroMode;
 	FDSMode<S>	comMacroMode;
