@@ -1,5 +1,9 @@
-package bjc.fds.core;
+package bjc.fds.core.macro;
 
+import bjc.fds.core.FDSCommand;
+import bjc.fds.core.FDSException;
+import bjc.fds.core.FDSMode;
+import bjc.fds.core.FDSState;
 import bjc.utils.cli.CommandHelp;
 import bjc.utils.ioutils.Block;
 

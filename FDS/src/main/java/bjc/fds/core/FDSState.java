@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import bjc.fds.core.macro.MacroFDSMode;
+import bjc.fds.core.macro.SimpleFDSMacro;
 import bjc.utils.esodata.SimpleStack;
 import bjc.utils.esodata.Stack;
 import bjc.utils.ioutils.PushbackBlockReader;

@@ -1,4 +1,4 @@
-package bjc.fds.core;
+package bjc.fds.core.macro;
 
 import java.util.function.Consumer;
 

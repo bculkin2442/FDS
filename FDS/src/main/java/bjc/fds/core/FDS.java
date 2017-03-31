@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import bjc.fds.core.FDSState.InputMode;
+import bjc.fds.core.macro.SimpleFDSMacro;
 import bjc.utils.cli.CommandHelp;
 import bjc.utils.cli.GenericHelp;
 import bjc.utils.funcutils.StringUtils;
