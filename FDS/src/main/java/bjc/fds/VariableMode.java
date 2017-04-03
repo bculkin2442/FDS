@@ -1,8 +1,8 @@
 package bjc.fds;
 
-import bjc.fds.FDSCommand;
-import bjc.fds.FDSException;
-import bjc.fds.FDSMode;
+import bjc.fds.core.FDSCommand;
+import bjc.fds.core.FDSException;
+import bjc.fds.core.FDSMode;
 
 import java.util.Arrays;
 import java.util.HashSet;

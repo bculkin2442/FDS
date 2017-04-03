@@ -1,4 +1,4 @@
-package bjc.fds;
+package bjc.fds.core;
 
 /**
  * Exception thrown when something goes wrong with FDS.

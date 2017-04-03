@@ -1,4 +1,4 @@
-package bjc.fds;
+package bjc.fds.core;
 
 import java.util.Collection;
 import java.util.HashMap;

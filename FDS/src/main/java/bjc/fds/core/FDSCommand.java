@@ -1,4 +1,4 @@
-package bjc.fds;
+package bjc.fds.core;
 
 /**
  * A command attached to an FDS interface.

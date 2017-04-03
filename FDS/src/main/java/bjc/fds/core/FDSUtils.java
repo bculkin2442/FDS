@@ -1,4 +1,4 @@
-package bjc.fds;
+package bjc.fds.core;
 
 import static bjc.utils.ioutils.BlockReaders.pushback;
 import static bjc.utils.ioutils.BlockReaders.simple;
@@ -7,7 +7,7 @@ import static bjc.utils.ioutils.BlockReaders.trigger;
 import java.io.PrintStream;
 import java.io.Reader;
 
-import bjc.fds.FDSState.InputMode;
+import bjc.fds.core.FDSState.InputMode;
 import bjc.utils.ioutils.BlockReader;
 import bjc.utils.ioutils.Prompter;
 import bjc.utils.ioutils.PushbackBlockReader;
