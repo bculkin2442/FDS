@@ -145,8 +145,7 @@ public class FDS {
 		}
 	}
 
-	private static <S> void handleInlineCommand(String[] commands, FDSState<S> state, Block comBlock)
-			throws FDSException {
+	private static <S> void handleInlineCommand(String[] commands, FDSState<S> state, Block comBlock) {
 		boolean dataInput = false;
 
 		for(int i = 0; i < commands.length; i++) {
@@ -169,7 +168,7 @@ public class FDS {
 		}
 	}
 
-	private static <S> void chordCommand(Block comBlock, FDSState<S> state, String comString) throws FDSException {
+	private static <S> void chordCommand(Block comBlock, FDSState<S> state, String comString) {
 		PushbackBlockReader source = state.comin;
 
 		BreakIterator charBreaker = BreakIterator.getCharacterInstance();
