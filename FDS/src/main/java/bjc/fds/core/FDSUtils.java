@@ -1,16 +1,16 @@
 package bjc.fds.core;
 
-import static bjc.utils.ioutils.BlockReaders.pushback;
-import static bjc.utils.ioutils.BlockReaders.simple;
-import static bjc.utils.ioutils.BlockReaders.trigger;
-
 import java.io.PrintStream;
 import java.io.Reader;
 
+import static bjc.utils.ioutils.blocks.BlockReaders.pushback;
+import static bjc.utils.ioutils.blocks.BlockReaders.simple;
+import static bjc.utils.ioutils.blocks.BlockReaders.trigger;
+
 import bjc.fds.core.FDSState.InputMode;
-import bjc.utils.ioutils.BlockReader;
 import bjc.utils.ioutils.Prompter;
-import bjc.utils.ioutils.PushbackBlockReader;
+import bjc.utils.ioutils.blocks.BlockReader;
+import bjc.utils.ioutils.blocks.PushbackBlockReader;
 
 /**
  * Utilities for dealing with FDS

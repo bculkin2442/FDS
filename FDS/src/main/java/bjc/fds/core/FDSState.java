@@ -9,7 +9,7 @@ import bjc.fds.core.macro.MacroFDSMode;
 import bjc.fds.core.macro.SimpleFDSMacro;
 import bjc.utils.esodata.SimpleStack;
 import bjc.utils.esodata.Stack;
-import bjc.utils.ioutils.PushbackBlockReader;
+import bjc.utils.ioutils.blocks.PushbackBlockReader;
 
 /**
  * Internal state for an FDS interface.

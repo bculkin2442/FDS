@@ -3,7 +3,7 @@ package bjc.fds.core.macro;
 import java.util.function.Consumer;
 
 import bjc.utils.cli.CommandHelp;
-import bjc.utils.ioutils.Block;
+import bjc.utils.ioutils.blocks.Block;
 
 /**
  * A FDS macro.

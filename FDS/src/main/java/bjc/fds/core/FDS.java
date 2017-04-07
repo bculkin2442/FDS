@@ -9,18 +9,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static bjc.utils.ioutils.blocks.BlockReaders.*;
+
 import bjc.fds.core.FDSState.InputMode;
 import bjc.fds.core.macro.SimpleFDSMacro;
 import bjc.utils.cli.CommandHelp;
 import bjc.utils.cli.GenericHelp;
 import bjc.utils.funcutils.StringUtils;
-import bjc.utils.ioutils.Block;
-import bjc.utils.ioutils.BlockReader;
-import bjc.utils.ioutils.PushbackBlockReader;
+import bjc.utils.ioutils.blocks.Block;
+import bjc.utils.ioutils.blocks.BlockReader;
+import bjc.utils.ioutils.blocks.PushbackBlockReader;
 
 import com.ibm.icu.text.BreakIterator;
-
-import static bjc.utils.ioutils.BlockReaders.*;
 
 /**
  * Runs a FDS (FDiskScript) interface.

@@ -5,7 +5,7 @@ import bjc.fds.core.FDSException;
 import bjc.fds.core.FDSMode;
 import bjc.fds.core.FDSState;
 import bjc.utils.cli.CommandHelp;
-import bjc.utils.ioutils.Block;
+import bjc.utils.ioutils.blocks.Block;
 
 import java.util.Arrays;
 import java.util.Collection;
