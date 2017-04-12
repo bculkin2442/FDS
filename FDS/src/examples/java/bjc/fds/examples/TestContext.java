@@ -7,5 +7,7 @@ package bjc.fds.examples;
  *
  */
 public class TestContext {
-
+	/*
+	 * Empty
+	 */
 }

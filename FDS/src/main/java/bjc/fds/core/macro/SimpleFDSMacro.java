@@ -8,7 +8,7 @@ import bjc.utils.ioutils.blocks.Block;
 
 /**
  * Simple implementation of {@link FDSMacro}
- * 
+ *
  * @author bjculkin
  *
  */
@@ -19,20 +19,20 @@ public class SimpleFDSMacro implements FDSMacro {
 
 	/**
 	 * Create a new FDS macro.
-	 * 
+	 *
 	 * @param macroBody
 	 *                The blocks that make up the body of the macro.
-	 * 
+	 *
 	 * @param macroHelp
 	 *                The help for the macro
 	 */
-	public SimpleFDSMacro(List<Block> macroBody, CommandHelp macroHelp) {
+	public SimpleFDSMacro(final List<Block> macroBody, final CommandHelp macroHelp) {
 		body = macroBody;
 		help = macroHelp;
 	}
 
 	@Override
-	public void invoke(Consumer<Block> action) {
+	public void invoke(final Consumer<Block> action) {
 		body.forEach(action);
 	}
 

@@ -9,7 +9,7 @@ import bjc.utils.cli.NullHelp;
 
 /**
  * A collection of related FDS commands.
- * 
+ *
  * @author bjculkin
  *
  * @param <S>
@@ -23,7 +23,7 @@ public interface FDSMode<S> {
 
 	/**
 	 * Get the name of this mode.
-	 * 
+	 *
 	 * @return The mode of this name.
 	 */
 	default String getName() {
@@ -32,9 +32,9 @@ public interface FDSMode<S> {
 
 	/**
 	 * Get all the characters that are registered to something in this mode.
-	 * 
+	 *
 	 * In this context, something means a command or submode.
-	 * 
+	 *
 	 * @return All of the characters registered to something in this mode.
 	 */
 	String[] registeredChars();
@@ -45,20 +45,20 @@ public interface FDSMode<S> {
 
 	/**
 	 * Check if there is a command registered to the given character.
-	 * 
+	 *
 	 * @param c
 	 *                The character to check
-	 * 
+	 *
 	 * @return Whether or not there is a command bound to that character.
 	 */
 	boolean hasCommand(String c);
 
 	/**
 	 * Check if there is a submode registered to the given character.
-	 * 
+	 *
 	 * @param c
 	 *                The character to check
-	 * 
+	 *
 	 * @return Whether or not there is a submode bound to that character.
 	 */
 	boolean hasSubmode(String c);
@@ -69,12 +69,12 @@ public interface FDSMode<S> {
 
 	/**
 	 * Get the command attached to a given character.
-	 * 
+	 *
 	 * @param c
 	 *                The character to get the command for.
-	 * 
+	 *
 	 * @return The command bound to that character.
-	 * 
+	 *
 	 * @throws FDSException
 	 *                 If there is no command bound to that character.
 	 */
@@ -82,12 +82,12 @@ public interface FDSMode<S> {
 
 	/**
 	 * Get the command attached to a given character.
-	 * 
+	 *
 	 * @param c
 	 *                The character to get the command for.
-	 * 
+	 *
 	 * @return The command bound to that character.
-	 * 
+	 *
 	 * @throws FDSException
 	 *                 If there is no command bound to that character.
 	 */
@@ -98,15 +98,15 @@ public interface FDSMode<S> {
 	 */
 	/**
 	 * Get the help for what's bound to a character.
-	 * 
+	 *
 	 * This should be one line.
-	 * 
+	 *
 	 * @param c
 	 *                The character to look at the help for.
-	 * 
+	 *
 	 * @return The help for what's bound to the character.
 	 */
-	default Collection<CommandHelp> getHelp(String c) {
+	default Collection<CommandHelp> getHelp(final String c) {
 		return DEFAULT_HELP;
 	}
 }

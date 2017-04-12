@@ -2,7 +2,7 @@ package bjc.fds.core;
 
 /**
  * A command attached to an FDS interface.
- * 
+ *
  * @author bjculkin
  *
  * @param <S>
@@ -12,7 +12,7 @@ package bjc.fds.core;
 public interface FDSCommand<S> {
 	/**
 	 * Run this command.
-	 * 
+	 *
 	 * @param state
 	 *                The current FDS state.
 	 */

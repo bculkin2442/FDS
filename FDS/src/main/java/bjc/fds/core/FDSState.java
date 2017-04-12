@@ -13,7 +13,7 @@ import bjc.utils.ioutils.blocks.PushbackBlockReader;
 
 /**
  * Internal state for an FDS interface.
- * 
+ *
  * @author bjculkin
  *
  * @param <S>
@@ -22,14 +22,14 @@ import bjc.utils.ioutils.blocks.PushbackBlockReader;
 public class FDSState<S> {
 	/**
 	 * The input mode for the interface.
-	 * 
+	 *
 	 * @author bjculkin
 	 *
 	 */
 	public static enum InputMode {
 		/**
 		 * Normal mode.
-		 * 
+		 *
 		 * Reads only the first character in the block as a command.
 		 */
 		NORMAL,
@@ -41,7 +41,7 @@ public class FDSState<S> {
 		 * Reads every character in the block, but after a terminal
 		 * command, data will be read in-line separated by spaces until
 		 * a semicolon is read.
-		 * 
+		 *
 		 * The semicolon can be escaped with a backslash.
 		 */
 		INLINE;
@@ -101,28 +101,29 @@ public class FDSState<S> {
 
 	/**
 	 * Create a new interface state.
-	 * 
+	 *
 	 * @param stat
 	 *                The initial state for the interface.
-	 * 
+	 *
 	 * @param inputMode
 	 *                The input mode for the interface.
 	 * @param cmin
 	 *                The source of command blocks.
-	 * 
+	 *
 	 * @param datin
 	 *                The source of data blocks.
-	 * 
+	 *
 	 * @param print
 	 *                The destination for output.
 	 * @param dataPrompt
 	 *                The function to use for changing the data prompt.
-	 * 
+	 *
 	 * @param normalPrompt
 	 *                The default data prompt.
 	 */
-	public FDSState(S stat, InputMode inputMode, PushbackBlockReader cmin, PushbackBlockReader datin,
-			PrintStream print, Consumer<String> dataPrompt, String normalPrompt) {
+	public FDSState(final S stat, final InputMode inputMode, final PushbackBlockReader cmin,
+			final PushbackBlockReader datin, final PrintStream print, final Consumer<String> dataPrompt,
+			final String normalPrompt) {
 		state = stat;
 		mode = inputMode;
 

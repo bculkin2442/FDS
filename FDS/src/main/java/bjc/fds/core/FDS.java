@@ -1,5 +1,9 @@
 package bjc.fds.core;
 
+import static bjc.utils.ioutils.blocks.BlockReaders.pushback;
+import static bjc.utils.ioutils.blocks.BlockReaders.serial;
+import static bjc.utils.ioutils.blocks.BlockReaders.simple;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
@@ -9,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static bjc.utils.ioutils.blocks.BlockReaders.*;
+import com.ibm.icu.text.BreakIterator;
 
 import bjc.fds.core.FDSState.InputMode;
 import bjc.fds.core.macro.SimpleFDSMacro;
@@ -20,16 +24,14 @@ import bjc.utils.ioutils.blocks.Block;
 import bjc.utils.ioutils.blocks.BlockReader;
 import bjc.utils.ioutils.blocks.PushbackBlockReader;
 
-import com.ibm.icu.text.BreakIterator;
-
 /**
  * Runs a FDS (FDiskScript) interface.
- * 
+ *
  * This is a rudimentary console interface inspired heavily by FDisk's interface
  * style.
- * 
+ *
  * Commands are denoted by a single character, but can invoke submodes.
- * 
+ *
  * @author bjculkin
  *
  */
@@ -42,60 +44,63 @@ public class FDS {
 	}
 
 	private static void configureMiscMode() {
-		GenericHelp loadScriptHelp = new GenericHelp("load-script\tLoad a script from a file", "");
+		final GenericHelp loadScriptHelp = new GenericHelp("load-script\tLoad a script from a file", "");
 		miscMode.addCommand("X", FDS::loadScript, loadScriptHelp);
 
-		GenericHelp quitProgramHelp = new GenericHelp("quit-program\tQuit the program", "");
+		final GenericHelp quitProgramHelp = new GenericHelp("quit-program\tQuit the program", "");
 		miscMode.addCommand("Q", (state) -> state.modes.drop(state.modes.size()), quitProgramHelp);
 
-		GenericHelp inlineInputHelp = new GenericHelp("inline-input\tProvide data input inline with commands",
-				"");
+		final GenericHelp inlineInputHelp = new GenericHelp(
+				"inline-input\tProvide data input inline with commands", "");
 		miscMode.addCommand("I", (state) -> {
-			if(state.mode == InputMode.CHORD) {
+			if (state.mode == InputMode.CHORD) {
 				state.mode = InputMode.INLINE;
-			} else if(state.mode == InputMode.INLINE) {
+			} else if (state.mode == InputMode.INLINE) {
 				state.mode = InputMode.CHORD;
 			} else {
 				state.printer.printf("? MNV\n");
 			}
 		}, inlineInputHelp);
 
-		GenericHelp dataMacroHelp = new GenericHelp("input-macro\tDefine a macro for providing data", "");
+		final GenericHelp dataMacroHelp = new GenericHelp("input-macro\tDefine a macro for providing data", "");
 		miscMode.addCommand("i", (state) -> createMacro(state, state.dataMacros), dataMacroHelp);
 
-		GenericHelp comMacroHelp = new GenericHelp("command-macro\tDefine a macro for providing commands", "");
+		final GenericHelp comMacroHelp = new GenericHelp("command-macro\tDefine a macro for providing commands",
+				"");
 		miscMode.addCommand("c", (state) -> createMacro(state, state.commandMacros), comMacroHelp);
 	}
 
-	private static void createMacro(FDSState<?> state, Map<String, SimpleFDSMacro> macroStore) {
-		PushbackBlockReader source = state.datain;
+	private static void createMacro(final FDSState<?> state, final Map<String, SimpleFDSMacro> macroStore) {
+		final PushbackBlockReader source = state.datain;
 
 		String macroName;
 
 		state.dataPrompter.accept("Enter macro name: ");
-		Block nameBlock = source.next();
-		String nameContents = nameBlock.contents.trim();
+		final Block nameBlock = source.next();
+		final String nameContents = nameBlock.contents.trim();
 
-		BreakIterator charBreaker = BreakIterator.getCharacterInstance();
+		final BreakIterator charBreaker = BreakIterator.getCharacterInstance();
 		charBreaker.setText(nameContents);
 
 		macroName = nameContents.substring(0, charBreaker.next());
 
 		state.dataPrompter.accept("Enter macro summary: ");
-		Block summBlock = source.next();
-		String summContents = summBlock.contents.trim();
+		final Block summBlock = source.next();
+		final String summContents = summBlock.contents.trim();
 
-		GenericHelp macroHelp = new GenericHelp(summContents, "");
+		final GenericHelp macroHelp = new GenericHelp(summContents, "");
 
 		state.dataPrompter.accept("Enter macro body (. to end body)");
-		List<Block> macroBody = new LinkedList<>();
+		final List<Block> macroBody = new LinkedList<>();
 
-		while(source.hasNext()) {
-			Block bodyBlock = source.next();
+		while (source.hasNext()) {
+			final Block bodyBlock = source.next();
 
-			String bodyContents = bodyBlock.contents.trim();
+			final String bodyContents = bodyBlock.contents.trim();
 
-			if(bodyContents.equals(".")) break;
+			if (bodyContents.equals(".")) {
+				break;
+			}
 
 			macroBody.add(new Block(bodyBlock.blockNo, bodyContents, bodyBlock.startLine,
 					bodyBlock.endLine));
@@ -108,20 +113,20 @@ public class FDS {
 
 	/**
 	 * Run a provided FDS mode until it is exited or there is no more input.
-	 * 
+	 *
 	 * @param state
 	 *                The initial state for the mode.
-	 * 
+	 *
 	 * @return The final state of the mode.
-	 * 
+	 *
 	 * @throws FDSException
 	 *                 If something went wrong during mode execution.
 	 */
-	public static <S> S runFDS(FDSState<S> state) throws FDSException {
-		BlockReader blockSource = state.comin;
+	public static <S> S runFDS(final FDSState<S> state) throws FDSException {
+		final BlockReader blockSource = state.comin;
 
-		while(blockSource.hasNext() && !state.modes.empty()) {
-			Block comBlock = blockSource.next();
+		while (blockSource.hasNext() && !state.modes.empty()) {
+			final Block comBlock = blockSource.next();
 
 			handleCommandString(comBlock, state);
 		}
@@ -129,19 +134,19 @@ public class FDS {
 		return state.state;
 	}
 
-	private static <S> void handleCommandString(Block comBlock, FDSState<S> state) throws FDSException {
-		String comString = comBlock.contents.trim();
-		BreakIterator charBreaker = BreakIterator.getCharacterInstance();
+	private static <S> void handleCommandString(final Block comBlock, final FDSState<S> state) throws FDSException {
+		final String comString = comBlock.contents.trim();
+		final BreakIterator charBreaker = BreakIterator.getCharacterInstance();
 		charBreaker.setText(comString);
 
-		switch(state.mode) {
+		switch (state.mode) {
 		case INLINE:
-			if(comString.contains(" ")) {
+			if (comString.contains(" ")) {
 				handleInlineCommand(comString.split(" "), state, comBlock);
 				break;
 			}
 		case CHORD:
-			if(StringUtils.graphemeCount(comString) > 1) {
+			if (StringUtils.graphemeCount(comString) > 1) {
 				chordCommand(comBlock, state, comString);
 				break;
 			}
@@ -153,18 +158,19 @@ public class FDS {
 		}
 	}
 
-	private static <S> void handleInlineCommand(String[] commands, FDSState<S> state, Block comBlock) {
+	private static <S> void handleInlineCommand(final String[] commands, final FDSState<S> state,
+			final Block comBlock) {
 		boolean dataInput = false;
 
-		for(int i = 0; i < commands.length; i++) {
-			String strang = commands[i].trim();
+		for (int i = 0; i < commands.length; i++) {
+			final String strang = commands[i].trim();
 
-			if(dataInput) {
-				if(strang.equals(";")) {
+			if (dataInput) {
+				if (strang.equals(";")) {
 					dataInput = false;
 				} else {
-					Block dataBlock = new Block(comBlock.blockNo + i, strang, comBlock.startLine,
-							comBlock.endLine);
+					final Block dataBlock = new Block(comBlock.blockNo + i, strang,
+							comBlock.startLine, comBlock.endLine);
 
 					state.datain.addBlock(dataBlock);
 				}
@@ -176,18 +182,18 @@ public class FDS {
 		}
 	}
 
-	private static <S> void chordCommand(Block comBlock, FDSState<S> state, String comString) {
-		PushbackBlockReader source = state.comin;
+	private static <S> void chordCommand(final Block comBlock, final FDSState<S> state, final String comString) {
+		final PushbackBlockReader source = state.comin;
 
-		BreakIterator charBreaker = BreakIterator.getCharacterInstance();
+		final BreakIterator charBreaker = BreakIterator.getCharacterInstance();
 		charBreaker.setText(comString);
 
 		int lastPos = charBreaker.first();
 
-		while(charBreaker.next() != BreakIterator.DONE && lastPos < comString.length()) {
-			String c = comString.substring(lastPos, charBreaker.current());
+		while (charBreaker.next() != BreakIterator.DONE && lastPos < comString.length()) {
+			final String c = comString.substring(lastPos, charBreaker.current());
 
-			Block newCom = new Block(comBlock.blockNo + 1, c, comBlock.startLine, comBlock.startLine);
+			final Block newCom = new Block(comBlock.blockNo + 1, c, comBlock.startLine, comBlock.startLine);
 
 			source.addBlock(newCom);
 
@@ -196,26 +202,26 @@ public class FDS {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <S> void handleCommand(String com, FDSState<S> state) throws FDSException {
-		if(state.modes.empty()) return;
+	private static <S> void handleCommand(final String com, final FDSState<S> state) throws FDSException {
+		if (state.modes.empty()) return;
 
-		PrintStream printer = state.printer;
+		final PrintStream printer = state.printer;
 
 		/*
 		 * Handle built-in commands over user commands.
 		 */
-		switch(com) {
+		switch (com) {
 		case "x":
-			if(state.mode == InputMode.CHORD) {
+			if (state.mode == InputMode.CHORD) {
 				state.mode = InputMode.NORMAL;
-			} else if(state.mode == InputMode.NORMAL) {
+			} else if (state.mode == InputMode.NORMAL) {
 				state.mode = InputMode.CHORD;
 			} else {
 				printer.println("? MNV\n");
 			}
 			break;
 		case "q":
-			FDSMode<S> md = state.modes.pop();
+			final FDSMode<S> md = state.modes.pop();
 			printer.printf("!< %s\n", md.getName());
 			break;
 		case "m":
@@ -224,7 +230,7 @@ public class FDS {
 		case "M":
 			/*
 			 * We'll see if this cast actually causes any issues.
-			 * 
+			 *
 			 * None of the commands in misc. mode should depend on
 			 * the state type, so it shouldn't matter.
 			 */
@@ -240,14 +246,14 @@ public class FDS {
 			printer.printf("!> ICM\n");
 			break;
 		default:
-			FDSMode<S> curMode = state.modes.top();
+			final FDSMode<S> curMode = state.modes.top();
 
-			if(curMode.hasSubmode(com)) {
-				FDSMode<S> mode = curMode.getSubmode(com);
+			if (curMode.hasSubmode(com)) {
+				final FDSMode<S> mode = curMode.getSubmode(com);
 
 				state.modes.push(mode);
 				printer.printf("!> %s\n", mode.getName());
-			} else if(curMode.hasCommand(com)) {
+			} else if (curMode.hasCommand(com)) {
 				curMode.getCommand(com).run(state);
 			} else {
 				printer.printf("? UBC '%s'\n", com);
@@ -255,43 +261,48 @@ public class FDS {
 		}
 	}
 
-	private static <S> void loadScript(FDSState<S> state) {
+	private static <S> void loadScript(final FDSState<S> state) {
 		state.dataPrompter.accept("Enter a filename: ");
 
-		String fileName = state.datain.next().contents.split(" ")[0];
+		final String fileName = state.datain.next().contents.split(" ")[0];
 
-		PrintStream printer = state.printer;
+		final PrintStream printer = state.printer;
 
 		try {
-			FileInputStream fis = new FileInputStream(fileName);
+			final FileInputStream fis = new FileInputStream(fileName);
 
-			BlockReader reader = simple("\\R", new InputStreamReader(fis));
+			/*
+			 * Reader is closed because it's only accessed through a
+			 * serial stream.
+			 */
+			@SuppressWarnings("resource")
+			final BlockReader reader = simple("\\R", new InputStreamReader(fis));
 
 			state.comin = pushback(serial(reader, state.comin));
 			state.datain = pushback(serial(reader, state.datain));
-		} catch(@SuppressWarnings("unused") FileNotFoundException fnfex) {
+		} catch (final FileNotFoundException fnfex) {
 			printer.printf("? FNF '%s'\n", fileName);
 		}
 
 		state.dataPrompter.accept(state.defaultPrompt);
 	}
 
-	private static <S> void helpSummary(PrintStream printer, FDSState<S> state) {
-		FDSMode<S> mode = state.modes.top();
+	private static <S> void helpSummary(final PrintStream printer, final FDSState<S> state) {
+		final FDSMode<S> mode = state.modes.top();
 
 		printer.printf("\nHelp for mode %s:\n", mode.getName());
 
-		for(String bound : mode.registeredChars()) {
-			Collection<CommandHelp> help = mode.getHelp(bound);
+		for (final String bound : mode.registeredChars()) {
+			final Collection<CommandHelp> help = mode.getHelp(bound);
 
-			if(help.size() > 1) {
-				for(CommandHelp hlp : help) {
+			if (help.size() > 1) {
+				for (final CommandHelp hlp : help) {
 					printer.printf("\t%s\t- %s\n", bound, hlp.getSummary());
 				}
 
 				printer.println();
 			} else {
-				CommandHelp hlp = help.iterator().next();
+				final CommandHelp hlp = help.iterator().next();
 
 				printer.printf("\t%s\t- %s\n", bound, hlp.getSummary());
 			}
