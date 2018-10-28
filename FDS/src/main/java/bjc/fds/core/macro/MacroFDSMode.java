@@ -28,7 +28,6 @@ public class MacroFDSMode<S> implements FDSMode<S> {
 			macroName = c;
 		}
 
-		@SuppressWarnings("synthetic-access")
 		@Override
 		public void run(final FDSState<S> state) {
 			mcros.get(macroName).invoke(dst);

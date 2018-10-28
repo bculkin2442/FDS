@@ -40,7 +40,6 @@ public class VariableMode<I, S> implements FDSMode<S> {
 		public DeleteBindingCommand() {
 		}
 
-		@SuppressWarnings("synthetic-access")
 		@Override
 		public void run(final FDSState<S> state) {
 			state.dataPrompter.accept("Enter name of binding to delete: ");
@@ -60,7 +59,6 @@ public class VariableMode<I, S> implements FDSMode<S> {
 		public EditBindingCommand() {
 		}
 
-		@SuppressWarnings("synthetic-access")
 		@Override
 		public void run(final FDSState<S> state) {
 			state.dataPrompter.accept("Enter name of binding to edit: ");
@@ -90,7 +88,6 @@ public class VariableMode<I, S> implements FDSMode<S> {
 		public CreateBindingCommand() {
 		}
 
-		@SuppressWarnings("synthetic-access")
 		@Override
 		public void run(final FDSState<S> state) {
 			state.dataPrompter.accept("Enter variable name: ");
@@ -115,7 +112,6 @@ public class VariableMode<I, S> implements FDSMode<S> {
 		public ListVariablesCommand() {
 		}
 
-		@SuppressWarnings("synthetic-access")
 		@Override
 		public void run(final FDSState<S> state) {
 			if (varMap.size() == 0) {
