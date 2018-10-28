@@ -8,7 +8,6 @@ import bjc.fds.core.FDSException;
 import bjc.fds.core.FDSMode;
 import bjc.fds.core.FDSUtils;
 import bjc.fds.core.SimpleFDSMode;
-import bjc.fds.examples.TestContext;
 import bjc.utils.cli.GenericHelp;
 import bjc.utils.functypes.ID;
 
